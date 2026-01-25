@@ -59,6 +59,7 @@ openrtx_src = ['openrtx/src/core/state.c',
                'openrtx/src/rtx/rtx.cpp',
                'openrtx/src/rtx/OpMode_FM.cpp',
                'openrtx/src/rtx/OpMode_M17.cpp',
+               'openrtx/src/rtx/OpMode_APRS.cpp',
                'openrtx/src/protocols/M17/M17DSP.cpp',
                'openrtx/src/protocols/M17/M17Golay.cpp',
                'openrtx/src/protocols/M17/M17Callsign.cpp',
@@ -67,7 +68,8 @@ openrtx_src = ['openrtx/src/core/state.c',
                'openrtx/src/protocols/M17/M17Demodulator.cpp',
                'openrtx/src/protocols/M17/M17FrameEncoder.cpp',
                'openrtx/src/protocols/M17/M17FrameDecoder.cpp',
-               'openrtx/src/protocols/M17/M17LinkSetupFrame.cpp']
+               'openrtx/src/protocols/M17/M17LinkSetupFrame.cpp',
+               'openrtx/src/protocols/APRS/packet.c']
 
 openrtx_inc = ['openrtx/include', 'platform']
 
@@ -78,7 +80,8 @@ openrtx_inc = ['openrtx/include', 'platform']
 ui_src_default = ['openrtx/src/ui/default/ui.c',
                   'openrtx/src/ui/default/ui_main.c',
                   'openrtx/src/ui/default/ui_menu.c',
-                  'openrtx/src/ui/default/ui_strings.c']
+                  'openrtx/src/ui/default/ui_strings.c',
+                  'openrtx/src/ui/default/ui_aprs.c']
 
 ui_src_module17 = ['openrtx/src/ui/module17/ui.c',
                    'openrtx/src/ui/module17/ui_main.c',
