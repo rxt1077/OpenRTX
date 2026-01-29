@@ -68,6 +68,7 @@ void *ui_threadFunc(void *arg)
                 pthread_mutex_lock(&rtx_mutex); // Lock r/w access to RTX configuration
 
                 // add the RTX packets to aprsStoredPkts
+                state.aprsStoredPktsSize += rtx_status.aprsPktsSize;
                 state.aprsStoredPkts = aprsPktsInsert(state.aprsStoredPkts,
                                                       rtx_status.aprsPkts);
 
@@ -75,6 +76,7 @@ void *ui_threadFunc(void *arg)
                 rtx_cfg = rtx_status; // must use rtx_cfg as rtx_status may be
                                       // freed before rtx_configure uses it
                 rtx_cfg.aprsPkts = NULL;
+                rtx_cfg.aprsPktsSize = 0;
 
                 pthread_mutex_unlock(&rtx_mutex); // Unlock r/w access to RTX configuration
                 rtx_configure(&rtx_cfg);

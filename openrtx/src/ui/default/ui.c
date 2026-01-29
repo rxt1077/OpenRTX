@@ -106,10 +106,10 @@ extern bool _ui_drawMacroMenu(ui_state_t* ui_state);
 extern void _ui_reset_menu_anouncement_tracking();
 
 #ifdef CONFIG_APRS
-/* UI APRS functions, their implementation is in "ui_aprs.c" */
+/* UI APRS functions. Their implementation is in "ui_aprs.c" */
 extern void ui_aprsPktDraw(ui_state_t *ui_state);
 extern void ui_aprsPktInput(ui_state_t *ui_state, state_t *state,
-                            kbd_msg_t msg, bool *sync_rtx);
+                            kbd_msg_t msg);
 #endif
 
 // TODO: get these from ui strings / currentLanguage
@@ -2530,7 +2530,7 @@ void ui_updateFSM(bool *sync_rtx)
                 break;
 #ifdef CONFIG_APRS
             case APRS_PKT:
-                ui_aprsPktInput(&ui_state, &state, msg, sync_rtx);
+                ui_aprsPktInput(&ui_state, &state, msg);
                 break;
 #endif
         }

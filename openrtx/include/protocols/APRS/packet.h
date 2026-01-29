@@ -12,6 +12,7 @@ extern "C" {
 typedef struct address {
     char addr[7]; /* include null termination */
     uint8_t ssid : 4;
+    bool commandHeard;
     struct address *next;
 } aprsAddress_t;
 

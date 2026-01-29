@@ -54,10 +54,10 @@ typedef struct
     char     M17_link[10];             /**  M17 LSF traffic originator */
     char     M17_refl[10];             /**  M17 LSF reflector module   */
 
-    uint16_t     aprsRecv;             /* Number of APRS packets received */
-    uint8_t      aprsSaved;            /* Number of APRS packets saved    */
-    aprsPacket_t *aprsPkts;            /* Linked list of saved APRS
-                                          packets, new to old             */
+    uint16_t     aprsRecv;             /* Total APRS packets received  */
+    aprsPacket_t *aprsPkts;            /* Linked list of newly received
+                                          APRS packets, new to old      */
+    uint8_t      aprsPktsSize;         /* Size of new packets list      */
 }
 rtxStatus_t;
 

@@ -74,7 +74,8 @@ void state_init()
         state.settings.brightness = 100;
     }
 
-    state.aprsStoredPkts = NULL;
+    state.aprsStoredPkts     = NULL;
+    state.aprsStoredPktsSize = 0;
 }
 
 void state_terminate()

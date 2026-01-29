@@ -40,8 +40,7 @@ void aprsAddrStr(char *outStr, aprsAddress_t *address)
  * @param msg The keys that were pressed
  * @param sync_rtx Whether or not to resync with RTX after handling input 
  */
-void ui_aprsPktInput(ui_state_t *ui_state, state_t *state, kbd_msg_t msg,
-                     bool *sync_rtx)
+void ui_aprsPktInput(ui_state_t *ui_state, state_t *state, kbd_msg_t msg)
 {
     aprsPacket_t *pkt = ui_state->pkt;
 
@@ -74,6 +73,9 @@ void ui_aprsPktInput(ui_state_t *ui_state, state_t *state, kbd_msg_t msg,
 
         // remove the packet from radio state (state) and free the memory
         state->aprsStoredPkts = aprsPktDelete(state->aprsStoredPkts, pkt);
+
+        // update the aprsSaved counter and set flag to sync RTX
+        state->aprsStoredPktsSize--;
     }
 }
 
@@ -115,11 +117,13 @@ void ui_aprsPktDraw(ui_state_t *ui_state)
     for (aprsAddress_t *address = pkt->addresses->next->next; address;
          address = address->next) {
         aprsAddrStr(addressStr, address);
-        // check to make sure we can fit with and null termination and a comma
+        // make sure we can fit with a '\0' and possibly a ',' and '*'
         if ((strlen(digipeaters) + strlen(addressStr))
-            >= (sizeof(digipeaters) - 2))
+            >= (sizeof(digipeaters) - 3))
             break;
         strcat(digipeaters, addressStr);
+        if (address->commandHeard)
+            strcat(digipeaters, "*");
         if (address->next)
             strcat(digipeaters, ",");
     }

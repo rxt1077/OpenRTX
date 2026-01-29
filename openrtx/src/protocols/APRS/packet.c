@@ -99,7 +99,17 @@ aprsPacket_t *aprsPktFromFrame(uint8_t *frame, size_t frameSize)
     aprsPacket_t *pkt = (aprsPacket_t *)malloc(sizeof(aprsPacket_t));
     pkt->next = NULL;
     pkt->prev = NULL;
+#ifdef CONFIG_RTC
     pkt->ts = platform_getCurrentTime();
+#else
+    pkt->ts.hour = 0;
+    pkt->ts.minute = 0;
+    pkt->ts.second = 0;
+    pkt->ts.day = 0;
+    pkt->ts.date = 0;
+    pkt->ts.month = 0;
+    pkt->ts.year = 0;
+#endif
 
     /* pull the addresses from the front of the frame and make aprsAddress_t's
      * for them */
@@ -129,6 +139,7 @@ aprsPacket_t *aprsPktFromFrame(uint8_t *frame, size_t frameSize)
         }
         /* the last byte is an SSID and some flags */
         address->ssid = (frame[frameOffset + 6] & 30) >> 1;
+        address->commandHeard = (frame[frameOffset + 6] & 0x80) >> 7;
         lastAddress = frame[frameOffset + 6] & 1;
         prevAddress = address;
         frameOffset += 7;

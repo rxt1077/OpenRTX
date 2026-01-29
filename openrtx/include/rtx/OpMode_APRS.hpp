@@ -8,7 +8,14 @@
 #define OPMODE_APRS_H
 
 #include "core/audio_path.h"
+#include "core/audio_stream.h"
+#include "core/dsp.h"
+#include "protocols/APRS/constants.h"
+#include "protocols/APRS/Demodulator.hpp"
+#include "protocols/APRS/Slicer.hpp"
+#include "protocols/APRS/HDLC.hpp"
 #include "OpMode.hpp"
+#include <memory>
 
 /**
  * Specialization of the OpMode class for the management of APRS operating
@@ -68,19 +75,24 @@ public:
     }
 
     /**
-     * Check if RX squelch is open.
+     * This always returns true as the squelch is open in this mode.
      *
-     * @return true if RX squelch is open.
+     * @return true
      */
-    virtual bool rxSquelchOpen() override;
+    virtual bool rxSquelchOpen() override
+    {
+        return true;
+    }
 
 private:
-    bool rfSqlOpen;     ///< Flag for RF squelch status (analog squelch).
-    bool sqlOpen;       ///< Flag for squelch status.
-    bool enterRx;       ///< Flag for RX management.
-    bool makePkts;
-    pathId rxAudioPath; ///< Audio path ID for RX
-    pathId txAudioPath; ///< Audio path ID for TX
+    bool enterRx;                              ///< Flag for RX management.
+    pathId rxAudioPath;                        ///< Audio path ID for RX
+    std::unique_ptr<int16_t[]> basebandBuffer; ///< buffer for RX audio handling
+    streamId basebandId;                       ///< Stream ID for RX to MCU
+    struct dcBlock dcBlock;                    ///< DC block filter state
+    APRS::Demodulator demodulator; ///< Demodulator for incoming samples
+    APRS::Slicer slicer;           ///< Slicer for demodulator output
+    APRS::Decoder decoder;         ///< Decoder for slicer output
 };
 
 #endif /* OPMODE_APRS_H */

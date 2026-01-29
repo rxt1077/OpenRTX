@@ -51,6 +51,7 @@ typedef struct
     uint8_t    step_index;
 
     aprsPacket_t *aprsStoredPkts;
+    uint16_t     aprsStoredPktsSize;
 }
 state_t;
 
