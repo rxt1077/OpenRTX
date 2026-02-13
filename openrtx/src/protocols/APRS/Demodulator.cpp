@@ -108,7 +108,7 @@ const int16_t *Demodulator::demodulate(int16_t *input)
     const int16_t *spaceQResult = spaceQ.convolve(filteredAudio);
 
     // The demodulated signal is mark - space
-    for (size_t i = 0; i < 64; i++)
+    for (size_t i = 0; i < APRS_BUF_SIZE; i++)
         diff[i] = ((abs(markIResult[i]) + abs(markQResult[i]))
                    - (abs(spaceIResult[i]) + abs(spaceQResult[i])))
                >> 3; // prevent overflow of int16_t
